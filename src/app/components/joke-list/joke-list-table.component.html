@@ -1,0 +1,16 @@
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Date of creation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let tempJoke of jokes">
+            <td class="align-middle">{{ tempJoke.title}}</td>
+            <td class="align-middle">{{ tempJoke.content}}</td>
+            <td class="align-middle">{{ tempJoke.dateCreated}}</td>
+        </tr>
+    </tbody>
+</table>
