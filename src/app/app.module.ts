@@ -10,17 +10,21 @@ import { JokeService } from './services/joke.service';
 import { Routes, RouterModule} from '@angular/router';
 import { StructureService } from './services/structure.service';
 const routes: Routes = [ 
+  {path: 'structure/:id', component: JokeListComponent},
+  {path: 'structure', component: JokeListComponent},
   {path: 'jokes', component: JokeListComponent},
-  {path: 'structures', component: StructureListComponent}
+  {path: '', redirectTo: '/jokes', pathMatch: 'full'},
+  {path: '**', redirectTo: '/jokes', pathMatch: 'full'}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     JokeListComponent,
-    StructureListComponent
+    StructureListComponent,
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule
   ],

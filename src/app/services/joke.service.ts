@@ -13,8 +13,10 @@ export class JokeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getJokeList(): Observable<Joke[]>{
-    return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
+  getJokeList(theStructureId: number): Observable<Joke[]>{
+    const searchUrl = `${this.baseUrl}/search/findByStructureId?id=${theStructureId}`;
+
+    return this.httpClient.get<GetResponse>(searchUrl).pipe(
       map(Response => Response._embedded.jokes)
     )
   }
