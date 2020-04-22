@@ -12,6 +12,7 @@ export class JokeListComponent implements OnInit {
 
   jokes: Joke[];
   currentStructureId: number;
+  searchMode: boolean;
 
   constructor(private jokeService: JokeService,
               private route: ActivatedRoute) { }
@@ -23,11 +24,34 @@ export class JokeListComponent implements OnInit {
   }
 
   listJokes() {
+    
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    if(this.searchMode){
+      this.handleSearchJokes();
+    }
+    else {
+      this.handleListJokes();
+    }
+  }
+
+  handleSearchJokes(){
+
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
+
+    this.jokeService.searchJokes(theKeyword).subscribe(
+      data => {
+        this.jokes = data;
+      }
+    )
+  }
+
+  handleListJokes(){
     const hasStructureId: boolean = this.route.snapshot.paramMap.has('id');
 
     if (hasStructureId){
       this.currentStructureId = +this.route.snapshot.paramMap.get('id');
-    } else {
+    } 
+    else {
       this.currentStructureId = 1;
     }
 
@@ -37,5 +61,4 @@ export class JokeListComponent implements OnInit {
       }
     )
   }
-
 }

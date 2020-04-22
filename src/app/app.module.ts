@@ -9,7 +9,11 @@ import { JokeService } from './services/joke.service';
 
 import { Routes, RouterModule} from '@angular/router';
 import { StructureService } from './services/structure.service';
+import { SearchComponent } from './components/search/search.component';
+import { JokeDetailsComponent } from './components/joke-details/joke-details.component';
 const routes: Routes = [ 
+  {path: 'jokes/:id', component: JokeDetailsComponent},
+  {path: 'search/:keyword', component: JokeListComponent},
   {path: 'structure/:id', component: JokeListComponent},
   {path: 'structure', component: JokeListComponent},
   {path: 'jokes', component: JokeListComponent},
@@ -22,6 +26,8 @@ const routes: Routes = [
     AppComponent,
     JokeListComponent,
     StructureListComponent,
+    SearchComponent,
+    JokeDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

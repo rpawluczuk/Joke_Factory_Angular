@@ -2,10 +2,20 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div *ngFor="let tempJoke of jokes">
-                <h2>{{ tempJoke.title }}</h2>
+                
+                <a routerLink="/jokes/{{tempJoke.id}}">
+                    <h2>{{ tempJoke.title }}</h2>
+                </a>
                 <div>{{ tempJoke.content }}</div>
+                <a href="#" class="primary-btn">Add to material</a>
                 <br>
+                
             </div>
+        </div>
+
+        <!-- if jokes empty then display a message-->
+        <div *ngIf="jokes?.length == 0" class="alert alert-warning col-md-12" role="alert">
+            No jokes found.
         </div>
     </div>
 </div>
