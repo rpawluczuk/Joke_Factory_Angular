@@ -11,6 +11,9 @@ import { Routes, RouterModule} from '@angular/router';
 import { StructureService } from './services/structure.service';
 import { SearchComponent } from './components/search/search.component';
 import { JokeDetailsComponent } from './components/joke-details/joke-details.component';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 const routes: Routes = [ 
   {path: 'jokes/:id', component: JokeDetailsComponent},
   {path: 'search/:keyword', component: JokeListComponent},
@@ -32,7 +35,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [JokeService, StructureService],
   bootstrap: [AppComponent]

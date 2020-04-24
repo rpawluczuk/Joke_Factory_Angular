@@ -10,9 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class JokeListComponent implements OnInit {
 
-  jokes: Joke[];
-  currentStructureId: number;
-  searchMode: boolean;
+  jokes: Joke[] = [];
+  currentStructureId: number = 1;
+  previousStructureId: number = 1;
+  searchMode: boolean = false;
+
+  //properties for pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 5;
+  theTotalElements: number = 0;
 
   constructor(private jokeService: JokeService,
               private route: ActivatedRoute) { }
@@ -55,10 +61,26 @@ export class JokeListComponent implements OnInit {
       this.currentStructureId = 1;
     }
 
-    this.jokeService.getJokeList(this.currentStructureId).subscribe(
-      data => {
-        this.jokes = data;
-      }
-    )
+    //if we have different structure id than previous then set thePageNumber back to 1
+    if (this.previousStructureId != this.currentStructureId) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousStructureId = this.currentStructureId;
+    console.log(`currentStructureId=${this.currentStructureId}, thePageNumber=${this.thePageNumber}`);
+
+    this.jokeService.getJokeListPaginate(this.thePageNumber - 1,
+                                         this.thePageSize,
+                                         this.currentStructureId)
+                                         .subscribe(this.processResult());
+  }
+
+  processResult(){
+    return data => {
+      this.jokes = data._embedded.jokes;
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    }
   }
 }
