@@ -9,9 +9,21 @@ import { map } from 'rxjs/operators';
 })
 export class JokeService {
 
-  private baseUrl = 'http://localhost:8080/api/jokes'
+  private baseUrl = 'http://localhost:8080/api/'
 
   constructor(private httpClient: HttpClient) { }
+
+  getJokeList(): Observable<Joke[]> {
+    const searchUrl = `${this.baseUrl}jokes`;
+
+    return this.httpClient.get<GetResponse>(searchUrl).pipe(
+      map(Response => Response._embedded.jokes)
+    )
+  }
+
+  createJoke(joke: object): Observable<object> {  
+    return this.httpClient.post(`${this.baseUrl}`+'save-joke', joke);  
+  }
 
   getJoke(theJokeId: number): Observable<Joke> {
 
@@ -24,23 +36,15 @@ export class JokeService {
     thePageSize: number,
     theStructureId: number): Observable<GetResponse> {
 
-    const searchUrl = `${this.baseUrl}/search/findByStructureId?id=${theStructureId}`
+    const searchUrl = `${this.baseUrl}jokes/search/findByStructureId?id=${theStructureId}`
       + `&page=${thePage}&size=${thePageSize}`;
 
     return this.httpClient.get<GetResponse>(searchUrl);
   }
 
-  getJokeList(theStructureId: number): Observable<Joke[]> {
-    const searchUrl = `${this.baseUrl}/search/findByStructureId?id=${theStructureId}`;
-
-    return this.httpClient.get<GetResponse>(searchUrl).pipe(
-      map(Response => Response._embedded.jokes)
-    )
-  }
-
   searchJokes(theKeyword: string): Observable<Joke[]> {
 
-    const searchUrl = `${this.baseUrl}/search/findByTitleContaining?title=${theKeyword}`;
+    const searchUrl = `${this.baseUrl}jokes/search/findByTitleContaining?title=${theKeyword}`;
 
     return this.httpClient.get<GetResponse>(searchUrl).pipe(
       map(Response => Response._embedded.jokes)
@@ -51,7 +55,7 @@ export class JokeService {
     thePageSize: number,
     theKeyword: string): Observable<GetResponse> {
 
-    const searchUrl = `${this.baseUrl}/search/findByTitleContaining?title=${theKeyword}`
+    const searchUrl = `${this.baseUrl}jokes/search/findByTitleContaining?title=${theKeyword}`
       + `&page=${thePage}&size=${thePageSize}`;
 
     return this.httpClient.get<GetResponse>(searchUrl);

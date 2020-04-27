@@ -14,16 +14,10 @@ import { JokeDetailsComponent } from './components/joke-details/joke-details.com
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialStatusComponent } from './components/material-status/material-status.component';
-
-const routes: Routes = [ 
-  {path: 'jokes/:id', component: JokeDetailsComponent},
-  {path: 'search/:keyword', component: JokeListComponent},
-  {path: 'structure/:id', component: JokeListComponent},
-  {path: 'structure', component: JokeListComponent},
-  {path: 'jokes', component: JokeListComponent},
-  {path: '', redirectTo: '/jokes', pathMatch: 'full'},
-  {path: '**', redirectTo: '/jokes', pathMatch: 'full'}
-];
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { DataTablesModule } from 'angular-datatables';  
+import { AddJokeComponent } from './components/add-joke/add-joke.component';
 
 @NgModule({
   declarations: [
@@ -32,12 +26,16 @@ const routes: Routes = [
     StructureListComponent,
     SearchComponent,
     JokeDetailsComponent,
-    MaterialStatusComponent
+    MaterialStatusComponent,
+    AddJokeComponent
   ],
   imports: [
-    RouterModule.forRoot(routes),
     BrowserModule,
+    AppRoutingModule,
+    FormsModule,  
+    ReactiveFormsModule, 
     HttpClientModule,
+    DataTablesModule, 
     NgbModule
   ],
   providers: [JokeService, StructureService],
