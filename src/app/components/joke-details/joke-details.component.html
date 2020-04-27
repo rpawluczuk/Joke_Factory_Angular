@@ -2,7 +2,8 @@
     <div class="container-fluid">
         <br><br>
         <h3>{{joke.title}}</h3>
-        <a href="#" class="primary-btn">Add to material</a>
+        <p>grade: {{ joke.grade }}</p>
+        <button (click)="addToMaterial()" class="btn btn-primary btn-sm">Add to material</button>
 
         <hr>
         <p>{{joke.content}}</p>

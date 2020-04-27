@@ -8,29 +8,29 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class JokeService {
- 
+
   private baseUrl = 'http://localhost:8080/api/jokes'
 
   constructor(private httpClient: HttpClient) { }
 
   getJoke(theJokeId: number): Observable<Joke> {
-    
+
     const jokeUrl = `${this.baseUrl}/${theJokeId}`;
 
     return this.httpClient.get<Joke>(jokeUrl);
   }
 
-  getJokeListPaginate(thePage: number, 
-                      thePageSize: number, 
-                      theStructureId: number): Observable<GetResponse>{
+  getJokeListPaginate(thePage: number,
+    thePageSize: number,
+    theStructureId: number): Observable<GetResponse> {
 
     const searchUrl = `${this.baseUrl}/search/findByStructureId?id=${theStructureId}`
-                    + `&page=${thePage}&size=${thePageSize}`;
+      + `&page=${thePage}&size=${thePageSize}`;
 
     return this.httpClient.get<GetResponse>(searchUrl);
   }
 
-  getJokeList(theStructureId: number): Observable<Joke[]>{
+  getJokeList(theStructureId: number): Observable<Joke[]> {
     const searchUrl = `${this.baseUrl}/search/findByStructureId?id=${theStructureId}`;
 
     return this.httpClient.get<GetResponse>(searchUrl).pipe(
@@ -38,13 +38,23 @@ export class JokeService {
     )
   }
 
-  searchJokes(theKeyword: string): Observable<Joke[]>{
-    
+  searchJokes(theKeyword: string): Observable<Joke[]> {
+
     const searchUrl = `${this.baseUrl}/search/findByTitleContaining?title=${theKeyword}`;
 
     return this.httpClient.get<GetResponse>(searchUrl).pipe(
       map(Response => Response._embedded.jokes)
     )
+  }
+
+  searchJokesPaginate(thePage: number,
+    thePageSize: number,
+    theKeyword: string): Observable<GetResponse> {
+
+    const searchUrl = `${this.baseUrl}/search/findByTitleContaining?title=${theKeyword}`
+      + `&page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<GetResponse>(searchUrl);
   }
 }
 

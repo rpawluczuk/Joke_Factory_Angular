@@ -13,6 +13,7 @@ import { SearchComponent } from './components/search/search.component';
 import { JokeDetailsComponent } from './components/joke-details/joke-details.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialStatusComponent } from './components/material-status/material-status.component';
 
 const routes: Routes = [ 
   {path: 'jokes/:id', component: JokeDetailsComponent},
@@ -30,7 +31,8 @@ const routes: Routes = [
     JokeListComponent,
     StructureListComponent,
     SearchComponent,
-    JokeDetailsComponent
+    JokeDetailsComponent,
+    MaterialStatusComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

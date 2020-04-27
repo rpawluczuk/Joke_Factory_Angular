@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { JokeService } from 'src/app/services/joke.service';
 import { Joke } from 'src/app/common/joke';
 import { ActivatedRoute } from '@angular/router';
+import { MaterialJoke } from 'src/app/common/material-joke';
+import { MaterialService } from 'src/app/services/material.service';
 
 @Component({
   selector: 'app-joke-list',
@@ -20,7 +22,10 @@ export class JokeListComponent implements OnInit {
   thePageSize: number = 5;
   theTotalElements: number = 0;
 
+  previousKeyword: string = null;
+
   constructor(private jokeService: JokeService,
+              private materialService: MaterialService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -44,11 +49,19 @@ export class JokeListComponent implements OnInit {
 
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
 
-    this.jokeService.searchJokes(theKeyword).subscribe(
-      data => {
-        this.jokes = data;
-      }
-    )
+    // if the keyword is deiferrent than previos then set thePageNumber to 1
+    if(this.previousKeyword != theKeyword){
+      this.thePageNumber = 1;
+    }
+
+    this.previousKeyword = theKeyword;
+
+    console.log(`keyword=${theKeyword}, thePageNumber=${this.thePageNumber}`);
+
+    // search for the jokes using keyword
+    this.jokeService.searchJokesPaginate(this.thePageNumber - 1,
+      this.thePageSize,
+      theKeyword).subscribe(this.processResult());
   }
 
   handleListJokes(){
@@ -82,5 +95,20 @@ export class JokeListComponent implements OnInit {
       this.thePageSize = data.page.size;
       this.theTotalElements = data.page.totalElements;
     }
+  }
+
+  updatePageSize(pageSize: number){
+    this.thePageSize = pageSize;
+    this.thePageNumber = 1;
+    this.listJokes();
+  }
+
+  addToMaterial(theJoke: Joke) {
+    
+    console.log(`Adding to material: ${theJoke.title}`);
+
+    const theMaterialJoke = new MaterialJoke(theJoke);
+
+    this.materialService.addToMaterial(theMaterialJoke);
   }
 }

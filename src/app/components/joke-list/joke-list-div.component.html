@@ -7,7 +7,8 @@
                     <h2>{{ tempJoke.title }}</h2>
                 </a>
                 <div>{{ tempJoke.content }}</div>
-                <a href="#" class="primary-btn">Add to material</a>
+                <br><div>grade: {{ tempJoke.grade }}</div>
+                <button (click)="addToMaterial(tempJoke)" class="btn btn-primary btn-sm">Add to material</button>
                 <br><br>
 
             </div>
@@ -29,10 +30,23 @@
                                 <ngb-pagination [(page)]="thePageNumber"
                                                 [pageSize]="thePageSize"
                                                 [collectionSize]="theTotalElements"
+                                                [maxSize]="5"
+                                                [boundaryLinks]="true"
                                                 (pageChange)="listJokes()">
 
                                 </ngb-pagination>
                             </div>
+                            <div class="col-md-3 mt-2" style="text-align: right;">
+                                    <span class="mr-2">Page Size</span>
+
+                                    <select (change)="updatePageSize($event.target.value)">
+                                        <option selected="true">5</option>
+                                        <option>10</option>
+                                        <option>20</option>
+                                        <option>50</option>
+                                    </select>
+                            </div>
+
                         </div>
                     </div>
                 </div>
