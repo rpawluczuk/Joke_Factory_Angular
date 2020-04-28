@@ -25,6 +25,10 @@ export class JokeService {
     return this.httpClient.post(`${this.baseUrl}`+'save-joke', joke);  
   }
 
+  deleteJoke(id: number): Observable<any> {  
+    return this.httpClient.delete(`${this.baseUrl}delete-joke/${id}`, { responseType: 'text' });  
+  } 
+
   getJoke(theJokeId: number): Observable<Joke> {
 
     const jokeUrl = `${this.baseUrl}/${theJokeId}`;
@@ -36,8 +40,8 @@ export class JokeService {
     thePageSize: number,
     theStructureId: number): Observable<GetResponse> {
 
-    const searchUrl = `${this.baseUrl}jokes/search/findByStructureId?id=${theStructureId}`
-      + `&page=${thePage}&size=${thePageSize}`;
+    const searchUrl = `${this.baseUrl}jokes?`
+      + `page=${thePage}&size=${thePageSize}`;
 
     return this.httpClient.get<GetResponse>(searchUrl);
   }

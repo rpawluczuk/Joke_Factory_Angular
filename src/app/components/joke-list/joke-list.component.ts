@@ -24,6 +24,8 @@ export class JokeListComponent implements OnInit {
 
   previousKeyword: string = null;
 
+  deleteMessage = false;
+
   constructor(private jokeService: JokeService,
               private materialService: MaterialService,
               private route: ActivatedRoute) { }
@@ -35,7 +37,6 @@ export class JokeListComponent implements OnInit {
   }
 
   listJokes() {
-    
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
     if(this.searchMode){
       this.handleSearchJokes();
@@ -46,7 +47,6 @@ export class JokeListComponent implements OnInit {
   }
 
   handleSearchJokes(){
-
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
 
     // if the keyword is deiferrent than previos then set thePageNumber to 1
@@ -111,4 +111,17 @@ export class JokeListComponent implements OnInit {
 
     this.materialService.addToMaterial(theMaterialJoke);
   }
+
+  deleteJoke(id: number) {  
+    this.jokeService.deleteJoke(id)  
+      .subscribe(  
+        data => {  
+          console.log(data);  
+          this.deleteMessage=true;  
+          this.jokeService.getJokeList().subscribe(data =>{  
+            this.jokes =data  
+            })  
+        },  
+        error => console.log(error));  
+  }  
 }
